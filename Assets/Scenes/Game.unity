@@ -200,6 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4291752018529766221, guid: d8ceb140fb619eb4fabae16705ef0c07,
         type: 3}
+      propertyPath: playerTag
+      value: Hana
+      objectReference: {fileID: 0}
+    - target: {fileID: 4291752018529766221, guid: d8ceb140fb619eb4fabae16705ef0c07,
+        type: 3}
       propertyPath: interactKey
       value: 101
       objectReference: {fileID: 0}

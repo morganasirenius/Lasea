@@ -49,7 +49,6 @@ public class LandController : MonoBehaviour
 
     private bool IsGrounded()
     {   
-        return true;
         Vector2 topLeftPoint = transform.position;
         topLeftPoint.x -= col.bounds.extents.x;
         topLeftPoint.y += col.bounds.extents.y;
@@ -57,7 +56,7 @@ public class LandController : MonoBehaviour
         Vector2 bottomRightPoint = transform.position;
         bottomRightPoint.x += col.bounds.extents.x;
         bottomRightPoint.y -= col.bounds.extents.y;
-        //return Physics2D.OverlapArea(topLeftPoint, bottomRightPoint, ground);
+        return Physics2D.OverlapArea(topLeftPoint, bottomRightPoint, ground);
     }
 
     private void Jump()

@@ -5,36 +5,39 @@ using UnityEngine.Events;
 public class Interactable : MonoBehaviour
 {
     public bool isInRange;
-    public KeyCode interactKey;
     public UnityEvent interactAction;
-    public InputControls inputControls;
-    // Update is called once per frame
-    void Update()
+    private LandInputControls landInputControls;
+    [SerializeField] private string playerTag;
+    void Awake()
     {
-        if(isInRange)
-        {
-            if(Input.GetKeyDown(interactKey))
-            {
-                interactAction.Invoke();
-            }
-        }
+        landInputControls = new LandInputControls();
+    }
+
+    private void OnEnable()
+    {
+        landInputControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        landInputControls.Disable();
+    }
+    void Start()
+    {
+        landInputControls.Land.Interact.performed += _ => Interact();
+    }
+    void Interact()
+    {
+        if(isInRange) interactAction.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Hana"))
-        {
-            isInRange = true;
-            Debug.Log("In range");
-        }
+        if(collision.gameObject.CompareTag(playerTag)) isInRange = true;
     }
 
-    private void onTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Hana"))
-        {
-            isInRange = false;
-            Debug.Log("Out of range");
-        }
+        if(collision.gameObject.CompareTag(playerTag)) isInRange = false;
     }
 }

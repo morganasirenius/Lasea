@@ -33,6 +33,14 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5cc3f48e-265d-44ee-91c4-f9ffb7c25736"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -101,6 +109,17 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
                     ""action"": ""VerticalMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab198299-d1f9-42a5-8a8b-b6d7a7892277"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -111,6 +130,7 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
         m_Sea = asset.FindActionMap("Sea", throwIfNotFound: true);
         m_Sea_HorizontalMove = m_Sea.FindAction("HorizontalMove", throwIfNotFound: true);
         m_Sea_VerticalMove = m_Sea.FindAction("VerticalMove", throwIfNotFound: true);
+        m_Sea_Interact = m_Sea.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -162,12 +182,14 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
     private ISeaActions m_SeaActionsCallbackInterface;
     private readonly InputAction m_Sea_HorizontalMove;
     private readonly InputAction m_Sea_VerticalMove;
+    private readonly InputAction m_Sea_Interact;
     public struct SeaActions
     {
         private @SeaInputControls m_Wrapper;
         public SeaActions(@SeaInputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @HorizontalMove => m_Wrapper.m_Sea_HorizontalMove;
         public InputAction @VerticalMove => m_Wrapper.m_Sea_VerticalMove;
+        public InputAction @Interact => m_Wrapper.m_Sea_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Sea; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,6 +205,9 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
                 @VerticalMove.started -= m_Wrapper.m_SeaActionsCallbackInterface.OnVerticalMove;
                 @VerticalMove.performed -= m_Wrapper.m_SeaActionsCallbackInterface.OnVerticalMove;
                 @VerticalMove.canceled -= m_Wrapper.m_SeaActionsCallbackInterface.OnVerticalMove;
+                @Interact.started -= m_Wrapper.m_SeaActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_SeaActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_SeaActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_SeaActionsCallbackInterface = instance;
             if (instance != null)
@@ -193,6 +218,9 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
                 @VerticalMove.started += instance.OnVerticalMove;
                 @VerticalMove.performed += instance.OnVerticalMove;
                 @VerticalMove.canceled += instance.OnVerticalMove;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -201,5 +229,6 @@ public class @SeaInputControls : IInputActionCollection, IDisposable
     {
         void OnHorizontalMove(InputAction.CallbackContext context);
         void OnVerticalMove(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

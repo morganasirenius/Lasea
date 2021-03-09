@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class SpellBookController : MonoBehaviour
+public class SpellBookManager : MonoBehaviour
 {
     public bool isOpen;
     public Spell[] spellsArray;
